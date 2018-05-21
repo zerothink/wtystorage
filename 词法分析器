@@ -1,0 +1,699 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
+
+namespace WindowsFormsApplication8
+{
+    public partial class Form1 : Form
+    {
+       
+        public string[] reserveWD;//存储保留字
+        public string Line_reader;//行
+        public List<string> word;//存储已经识别的word
+        public int wordcount;//记录已经识别的word个数
+        public int flag_zhuxi=0; //注释符的标志 用来指示是否已经识别到注释符,0=没有
+        public int flag_danyinhao = 0;//标志是否识别到一个左单引号，0=没有
+        public int indexstorge = 0;//记录左单引号在word中的索引
+        public int index_danyinhao = 0;//存储单引号左边第一次出现在line_reader中的位置
+        public Form1()
+        {
+            InitializeComponent();
+            reserveWD = new String[]{"and","array","begin","bool","call","case","char",
+	    		"constant","dim","do","end","else","false","for","if","input","integer","not",
+	    		"of","or","output","procedure","program","read","real","repeat","set","stop",
+	    		"then","to","true","until","var","while","write"
+	    	};
+            //初始化保留字
+          
+        }
+        //点击检测按钮的事件
+        private void button1_Click(object sender, EventArgs e)
+        {
+            word = new List<string>();//初始化word
+            wordcount = 0;//初始化wordcount
+            Getword();//识别word的函数
+            if (wordcount > 0)
+            {
+                for (int i = 0; i < wordcount; i++)
+                {
+                    richTextBox2.Text += "\n"+word[i];
+                }
+            }
+        }
+
+
+
+//判别word的函数
+        public void Getword()
+        {
+
+            for (int line = 0; line < richTextBox1.Lines.Length; line++)
+            {
+                Line_reader = richTextBox1.Lines[line];
+                int begin = 0;
+                int end = 0;//begin和end记录word的字符位置范围，为截取word提供参数
+                char check;//当前读取到的字符
+                for (int rchar = 0; rchar < Line_reader.Length; rchar=begin)
+                {
+                    check = Line_reader[rchar];
+                    Regex Rstr1=new Regex("[a-zA-Z]");//匹配字母
+                    Regex Rstr2=new Regex("[0-9]");//匹配数字
+                    if(Rstr1.IsMatch(check.ToString()))
+                    {
+                        check='s';//设定字母的case为‘s’
+                    }
+                    if(Rstr2.IsMatch(check.ToString()))
+                    {
+                        check='m';//设定数字的case为'm'
+                    }
+                    switch (check)
+                    {
+                        case '<':
+                            {
+                                if (rchar >= Line_reader.Length - 1)//判断读取的字符是否为行尾的字符
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+                                    begin=begin+1;
+                                    end=begin;
+                                    if (flag_zhuxi == 0)//如果前面没"/*"则识别的word保存下来
+                                    {
+                                        word.Add(str);
+                                        wordcount++;                                                                                
+                                    }
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin + 1] == '=' || Line_reader[begin + 1] == '>')
+                                    {
+                                        end = begin + 1;
+                                        StringBuilder foundwd = new StringBuilder();
+                                        for (int i = begin; i <= end; i++)
+                                        {
+                                            foundwd.Append(Line_reader[i]);
+                                        }
+
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            string str = null;
+                                            str = foundwd.ToString();
+                                            word.Add(str);
+                                            wordcount++;                                        
+                                        }                                       
+                                    }
+                                    else
+                                    {
+                                           string str = Line_reader[begin].ToString();                                    
+                                           end = begin;
+                                           begin = end + 1;
+                                           end=begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+                                        
+                                        
+                                    }
+                                    }
+
+
+                                 
+                                }
+
+                            }
+                            break;
+                        case '>':
+                            {
+
+
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+
+                                    end = begin;
+                                    begin = end + 1;
+                                    end=begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin + 1] == '=')
+                                    {
+                                        end = begin + 1;
+                                        StringBuilder foundwd = new StringBuilder();
+                                        for (int i = begin; i <= end; i++)
+                                        {
+                                            foundwd.Append(Line_reader[i]);
+                                        }
+
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            string str = null;
+                                            str = foundwd.ToString();
+                                            word.Add(str);
+                                            wordcount++;
+
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        string str = Line_reader[begin].ToString();
+
+                                        end = begin;
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str);
+                                            wordcount++;
+
+
+                                        }
+                                    }
+
+
+
+                                }
+                            
+                            }
+                            break;
+                        case ':':
+                            {
+
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+
+                                    end = begin;
+                                    begin = end + 1;
+                                    end=begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin + 1] == '=')
+                                    {
+                                        end = begin + 1;
+                                        StringBuilder foundwd = new StringBuilder();
+                                        for (int i = begin; i <= end; i++)
+                                        {
+                                            foundwd.Append(Line_reader[i]);
+                                        }
+
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            string str = null;
+                                            str = foundwd.ToString();
+                                            word.Add(str);
+                                            wordcount++;
+
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        string str = Line_reader[begin].ToString();
+
+                                        end = begin;
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str);
+                                            wordcount++;
+
+
+                                        }
+                                    }
+
+
+
+                                }
+
+
+                                
+                            }
+                            break;
+                        case '.':
+                            {
+
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+
+                                    end = begin;
+                                    begin = end + 1;
+                                    end=begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin + 1] == '.')
+                                    {
+                                        end = begin + 1;
+                                        StringBuilder foundwd = new StringBuilder();
+                                        for (int i = begin; i <= end; i++)
+                                        {
+                                            foundwd.Append(Line_reader[i]);
+                                        }
+
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            string str = null;
+                                            str = foundwd.ToString();
+                                            word.Add(str);
+                                            wordcount++;
+
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        string str = Line_reader[begin].ToString();
+
+                                        end = begin;
+                                        begin = end + 1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str);
+                                            wordcount++;
+
+
+                                        }
+                                    }
+
+
+
+                                }
+
+                            }
+                            break;
+                        case '=':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case '+':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case '-':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case '(':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case ')':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case '[':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+
+                        case ']':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case ',':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+                        case ';':
+                            {
+                                string str = Line_reader[begin].ToString();
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                                if (flag_zhuxi == 0)
+                                {
+                                    word.Add(str);
+                                    wordcount++;
+                                }
+                            }
+                            break;
+//遇到空格的处理,空格不保留,直接去读下一个字符
+                        case ' ':
+                            {
+                                end = begin;
+                                begin = end + 1;
+                                end=begin;//重置end
+                            }
+                            break;
+                        case '/':
+                            {
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+                                    end = begin;
+                                    begin = end + 1;
+                                    end=begin;//重置end
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+                                    }                                
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin+1] == '*')
+                                    {
+                                        end = begin + 1;
+                                        begin = end + 1;
+                                        end=begin;//重置end
+                                        flag_zhuxi = 1;
+                                    }
+                                    else
+                                    {
+                                        string str = Line_reader[begin].ToString();
+                                        end = begin;
+                                        begin = end + 1;
+                                        end=begin;//重置end
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str);
+                                            wordcount++;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case '*':
+                            {
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+
+                                    string str = Line_reader[begin].ToString();
+                                    end = begin;
+                                    begin = end + 1;
+                                    end=begin;//重置end
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(str);
+                                        wordcount++;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Line_reader[begin + 1] == '/')
+                                    {
+                                        end = begin + 1;
+                                        begin = end + 1;
+                                        end=begin;//重置end
+                                        flag_zhuxi = 0;
+                                    }
+                                    else
+                                    {
+                                        string str = Line_reader[begin].ToString();
+                                        end = begin;
+                                        begin = end + 1;
+                                        end=begin;//重置end
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str);
+                                            wordcount++;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 's':
+                            {
+
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+                                    StringBuilder st = new StringBuilder();
+                                    for (int i = end; i <= begin; i++)
+                                    {
+                                        st.Append(Line_reader[i]);
+                                    }
+                                    begin += 1;
+                                    end = begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(st.ToString());
+                                        wordcount++;
+                                    }
+                                }
+                                else
+                                {
+                                    char matchar = Line_reader[begin + 1];
+                                    if (Rstr2.IsMatch(matchar.ToString()))
+                                    {
+                                        matchar = 'm';
+                                    }
+                                    else if (Rstr1.IsMatch(matchar.ToString()))
+                                    {
+                                        matchar = 's';
+                                    }
+
+                                    if (matchar == 'm' || matchar == 's')
+                                    {
+                                        begin += 1;
+
+                                    }
+                                    else
+                                    {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = end; i <= begin; i++)
+                                        {
+                                            str.Append(Line_reader[i]);
+                                        }
+                                        begin += 1;
+                                        end = begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str.ToString());
+                                            wordcount++;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 'm':
+                            {
+                                if (rchar >= Line_reader.Length - 1)
+                                {
+                                    StringBuilder st = new StringBuilder();
+                                    for (int i = end; i <= begin; i++)
+                                    {
+                                        st.Append(Line_reader[i]);
+                                    }
+                                    begin += 1;
+                                    end = begin;
+                                    if (flag_zhuxi == 0)
+                                    {
+                                        word.Add(st.ToString());
+                                        wordcount++;
+                                    }
+                                }
+                                else
+                                {
+                                    char matchar=Line_reader[begin+1];
+                                    if (Rstr2.IsMatch(matchar.ToString()))
+                                    {
+                                        matchar = 'm';
+                                    }
+                                    else if (Rstr1.IsMatch(matchar.ToString()))
+                                    {
+                                        matchar = 's';
+                                    }
+
+                                    if (matchar == 'm'||matchar=='s')
+                                    {
+                                        begin += 1;
+
+                                    }
+                                    else
+                                    {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = end; i <= begin; i++)
+                                        {
+                                            str.Append(Line_reader[i]);
+                                        }
+                                        begin+=1;
+                                        end=begin;
+                                        if (flag_zhuxi == 0)
+                                        {
+                                            word.Add(str.ToString());
+                                            wordcount++;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                            case '\'':
+                                {
+                                    if (flag_danyinhao == 0)
+                                    {
+                                        flag_danyinhao = 1;//标志已经读取到单引号的左边了
+                                        index_danyinhao = begin;
+                                        word.Add("'");
+                                        indexstorge = wordcount;
+                                        wordcount++;
+                                        begin++;
+                                        end=begin;
+                                    }
+                                    else if (flag_danyinhao == 1)
+                                    {
+                                        flag_danyinhao = 0;
+                                        for (int count =wordcount-1;count>=indexstorge; count--)
+                                        {
+                                            word.RemoveAt(count);
+                                        }
+                                        
+                                        StringBuilder bd = new StringBuilder();
+                                        for (int i = index_danyinhao; i <= begin; i++)
+                                        {
+                                            bd.Append(Line_reader[i].ToString());
+                                        }
+                                        word.Add(bd.ToString());
+                                        wordcount = indexstorge + 1;
+                                        begin++;
+
+
+                                    }
+                                }
+                            break;
+                    }
+                   // begin++;
+                }
+                if (flag_zhuxi == 1)
+                {
+                    richTextBox1.Text += "\n" + "错误：缺少*/,行数：" + line.ToString();
+                    flag_zhuxi = 0;
+                    wordcount = 0;
+                    return;
+                }
+                else if (flag_danyinhao == 1)
+                {
+                    richTextBox1.Text += "\n" + "错误：缺少',行数：" + line.ToString();
+                    flag_danyinhao= 0;
+                    wordcount = 0;
+                    return;
+                }
+            }
+        }
+
+
+    }
+
+
+
+}

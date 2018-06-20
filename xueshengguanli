@@ -1,0 +1,1095 @@
+/*Adminhome.html*/
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>管理员登录页面</title>
+    <style>
+    .a{
+      width: 150px;  
+    height: 18px;  
+    margin-bottom: 10px;  
+    outline: none;  
+    padding: 10px;  
+    font-size: 13px;  
+    color: #fff;  
+     
+    border-top: 1px solid #312E3D;  
+    border-left: 1px solid #312E3D;  
+    border-right: 1px solid #312E3D;  
+    border-bottom: 1px solid #56536A;  
+    border-radius: 4px;  
+    background-color: rgb(77, 81, 85);  
+    }
+    .b{
+      width: 350px;
+      border: 1px solid black;
+      color: white;
+      background-color:rgb(157, 168, 179);
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .c{
+      width: 823px;
+      height: 30px;
+      background-color: white;
+      border-radius: 4px;
+    }
+    .e{
+    background-color: rgb(77, 81, 85);
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #312E3D;
+  }
+  </style>
+</head>
+
+<body >
+
+
+<form action="checkStuinfo.jsp" method="post">
+<div class="b">
+  <h1></h1>
+ 查询:
+ <input type="text" name="checkbox" class="a">
+ <select name="selectmode" class="e"> 
+  <option value="check_sno" selected="selected" >按学号</option>
+  <option value="check_sname">按姓名</option>  
+</select>
+<h2> </h2>
+<div><a href="checkStuinfo.jsp" onclick="link"><input type="submit" name="submit" value="确认" style="width: 80px; height: 30px;"></a></div>
+<h2></h2>
+</div>
+<br>
+</form>
+
+<table border="1" cellspacing="0" cellpadding="4" align="center" class="c">
+  <tr>
+    <td width="94">学号</td>
+    <td width="94">班级</td>
+    <td width="94">姓名</td>
+    <td width="94">年龄</td>
+    <td width="94">出生日期</td>
+    <td width="94">性别</td>
+    <td width="94">联系电话</td>
+    <td width="94">邮箱</td>
+  </tr>
+</table>
+</body>
+</html>
+
+
+
+/*Adminhome.jsp*/
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+    <title>管理员登录页面</title>
+    <style>
+    .a{
+      width: 150px;  
+    height: 18px;  
+    margin-bottom: 10px;  
+    outline: none;  
+    padding: 10px;  
+    font-size: 13px;  
+    color: #fff;  
+     
+    border-top: 1px solid #312E3D;  
+    border-left: 1px solid #312E3D;  
+    border-right: 1px solid #312E3D;  
+    border-bottom: 1px solid #56536A;  
+    border-radius: 4px;  
+    background-color: rgb(77, 81, 85);  
+    }
+    .b{
+      width: 350px;
+      border: 1px solid black;
+      color: white;
+      background-color:rgb(157, 168, 179);
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .c{
+      width: 823px;
+      height: 30px;
+      background-color: white;
+      border-radius: 4px;
+    }
+    .e{
+    background-color: rgb(77, 81, 85);
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #312E3D;
+  }
+  </style>
+</head>
+<body>
+<%
+     String username=(String)session.getAttribute("username");
+    if (username==null) {
+        response.setHeader("refresh","1;url =index.html");
+        return;
+    }
+         
+
+%>
+
+<form action="checkStuinfo.jsp" method="post">
+<div class="b">
+<h1></h1>
+ 查询:
+ <input type="text" name="checkbox" class="a">
+ <select name="selectmode"> 
+  <option value="check_sno" selected="selected" >按学号</option>
+  <option value="check_sname">按姓名</option>  
+</select>
+<h2></h2>
+<div><a href="checkStuinfo.jsp" onclick="link"><input type="submit" name="submit" value="确认" style="width:80px;height:30px"></a></div>
+</div>
+
+</form>
+
+
+<table  border="1" cellspacing="0" cellpadding="4" align="center" class="c">
+  <tr>
+    <td width="94">学号</td>
+    <td width="94">班级</td>
+    <td width="94">姓名</td>
+    <td width="94">年龄</td>
+    <td width="94">出生日期</td>
+    <td width="94">性别</td>
+    <td width="94">联系电话</td>
+    <td width="94">邮箱</td>
+  </tr>
+</table>
+</body>
+</html>
+
+
+/*ChangePassword.html*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>修改密码</title>
+	<style>
+	.a{
+		background:#4a374a;
+	}
+	.b{
+		width: 300px;
+		position: relative;
+		top: 200px;
+		text-align: center;	 
+	    background-color: #4a374a;
+		color: white;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.c{
+		width: 200px;
+		 
+    min-height: 18px;  
+    display: block;  
+    background-color: #4a77d4;  
+    border: 1px solid #3762bc;  
+    color: #fff;  
+    padding: 9px 14px;  
+    font-size: 15px;  
+    line-height: normal;  
+    border-radius: 5px;  
+    margin-bottom: 10px;  
+    margin-left: auto;
+    margin-right: auto;
+	}
+	.d{
+		width: 150px;  
+    height: 18px;  
+    margin-bottom: 10px;  
+    outline: none;  
+    padding: 10px;  
+    font-size: 13px;  
+    color: #fff;  
+     
+    border-top: 1px solid #312E3D;  
+    border-left: 1px solid #312E3D;  
+    border-right: 1px solid #312E3D;  
+    border-bottom: 1px solid #56536A;  
+    border-radius: 4px;  
+    background-color: rgb(77, 81, 85);  
+	}
+</style>
+</head>
+<body class="a">
+<div class="b">
+<form action="ChangePassword.jsp" method="post">
+	<br>
+<div>旧的密码：<input type="text" name="oldpassword" class="d"></div><br>
+<div>新的密码：<input type="text" name="newpassword" class="d"></div><br>
+<div><a href="ChangePassword.jsp" onclick="link"><input type="submit" name="submit" value="确认修改" class="c"></a></div><br>
+</form>
+</div>
+</body>
+</html>
+
+
+/*ChangePassword.jsp*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+	<title></title>
+</head>
+<body>
+<%
+   String id=(String)session.getAttribute("username");
+   String oldpassword=request.getParameter("oldpassword");
+   String newpassword=request.getParameter("newpassword");
+     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+   Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录SQLSERVER2008
+
+    Statement stmt = connect.createStatement();//
+    String sql="select * from user2 where id='"+id+"' and userpassword='"+oldpassword+"'";
+   if (oldpassword.equals("")||newpassword.equals("")) {
+
+
+
+      
+
+
+   	    }
+   else
+   {
+       
+	  ResultSet set=stmt.executeQuery(sql);
+	  if(set.next())
+	  {
+	     String changesql="update user2 set userpassword='"+newpassword+"' where id='"+id+"'";
+	     int i=stmt.executeUpdate(changesql);
+	     if(i==1)
+	     	{  out.println("<script language = 'javaScript'>  alert('成功修改');</script>");
+      	response.setHeader("refresh","1;url=index.html");
+        }
+	  }
+
+}
+stmt.close();
+
+    connect.close();
+
+
+%>
+</body>
+</html>
+
+
+
+
+/*checkStuinfo.jsp*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+	<title></title>
+    <style>
+    .a{
+      background:#a5dbf8;
+    }
+    .b{
+      width: 300px;
+      border: 1px solid black;
+      background-color: white;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .c{
+      width: 823px;
+      height: 30px;
+      background-color: white;
+    }
+  </style>
+</head>
+<body class="a">
+
+
+<%
+    String username=(String)session.getAttribute("username");
+    if (username==null) {
+        response.setHeader("refresh","1;url =index.html");
+        return;//防止不登录非法访问
+    }
+
+
+    String context=request.getParameter("checkbox");
+    if (context.equals("")||context==null) {
+        out.println("<script language = 'javaScript' >  alert('查询条件不能为空');</script>");
+    	response.setHeader("refresh","1;url = Adminhome.html");
+    }
+    else{
+    String mode=request.getParameter("selectmode");
+
+
+Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+     Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录链接数据库
+
+    Statement stmt = connect.createStatement();
+    String sql=null;
+    
+
+    session.setAttribute("mode",mode);
+    if (mode.equals("check_sname")) {
+        
+    	sql="select * from StudentInfo where sname='"+context+"'";
+    }
+    else
+    {
+       
+       sql="select * from StudentInfo where sno="+context+"";
+	
+}
+    ResultSet set=stmt.executeQuery(sql);
+
+    
+  
+%>
+
+<form action="checkStuinfo.jsp" method="post">
+<div class="b">
+ 查询:
+ <input type="text" name="checkbox" value="<%=context%>">
+ <select name="selectmode" value="<%=mode%>"> 
+  <option value="check_sno" selected="selected">按学号</option>
+  <option value="check_sname">按姓名</option>  
+</select>
+<div><a href="checkStuinfo.jsp" onclick="link"><input type="submit" name="submit" value="确认" style="width: 80px; height: 30px;"></a></div>
+</div>
+
+</form>
+
+
+<table  border="1" cellspacing="0" cellpadding="4" align="center" class="c">
+  <tr>
+    <td width="94">学号</td>
+    <td width="94">班级</td>
+    <td width="94">姓名</td>
+    <td width="94">年龄</td>
+    <td width="94">出生日期</td>
+    <td width="94">性别</td>
+    <td width="94">联系电话</td>
+    <td width="94">邮箱</td>
+  </tr>
+  <%
+     while(set.next())
+     {
+        String sno=null;
+        String sname=null;
+        String sage=null;
+        String sbirth=null;
+        String ssex=null;
+        String sphone=null;
+        String smail=null;
+        String sclass=null;
+        if(set.getString(2)==null)
+        {
+               sno="";        
+        }
+        else
+        {
+              sno=set.getString(2).trim();
+        }
+         if(set.getString(3)==null)
+        {
+               sname="";        
+        }
+        else
+        {
+              sname=set.getString(3).trim();
+        }
+         if(set.getString(4)==null)
+        {
+               sage="";        
+        }
+        else
+        {
+              sage=set.getString(4).trim();
+        }
+         if(set.getString(5)==null)
+        {
+               sbirth="";        
+        }
+        else
+        {
+              sbirth=set.getString(5).trim();
+        }
+         if(set.getString(6)==null)
+        {
+               ssex="";        
+        }
+        else
+        {
+              ssex=set.getString(6).trim();
+        }
+         if(set.getString(7)==null)
+        {
+               sphone="";        
+        }
+        else
+        {
+              sphone=set.getString(7).trim();
+        }
+         if(set.getString(8)==null)
+        {
+               smail="";        
+        }
+        else
+        {
+              smail=set.getString(8).trim();
+        }
+        
+         if(set.getString(9)==null)
+        {
+               sclass="";        
+        }
+        else
+        {
+              sclass=set.getString(9).trim();
+        }
+       out.print("<tr>");
+       out.print("<td>");
+       out.print(sno);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(sclass);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(sname);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(sage);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(sbirth);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(ssex);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(sphone);
+       out.print("<//td>");
+       out.print("<td>");
+       out.print(smail);
+       out.print("<//td>");
+       out.print("<//tr>");
+
+       
+       out.print("<br>");
+} 
+
+}     
+  %>
+</table>
+</body>
+</html>
+
+
+
+/*index.html*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="LoginIndex.css">
+
+	<title>学生管理系统登录</title>
+     <style>
+	     .a{
+			 position: absolute;
+			 top: 50%;
+			 left: 50%;
+			 margin: -150px 0 0 -150px; 
+			 background:#4a374a;
+		 }
+		 .b{
+			 width: 300px;
+			 
+			 
+			 background-color:#4a374a ;
+			 text-align: center;
+			 margin-left: auto;
+			 margin-right: auto;
+		 }
+		 h1{
+			font-size: 2em;   
+    margin: 0.67em 0; 
+	color: #fff;   
+    text-shadow:0 0 10px;   
+    letter-spacing: 1px;   
+    text-align: center; 
+			 
+		 }
+		 .d{
+			 
+			 width: 200px;
+		 
+		 min-height: 18px;  
+		 display: block;  
+		 background-color: #4a77d4;  
+		 border: 1px solid #3762bc;  
+		 color: #fff;  
+		 padding: 9px 14px;  
+		 font-size: 15px;  
+		 line-height: normal;  
+		 border-radius: 5px;  
+		 margin-bottom: 10px;  
+		 margin-left: auto;
+		 margin-right: auto;
+			 
+		 }
+		 .e{
+			width: 200px;  
+    height: 18px;  
+    margin: 5px;  
+    outline: none;  
+    padding: 10px;  
+    font-size: 13px;  
+    color: #fff;  
+     
+    border-top: 1px solid #312E3D;  
+    border-left: 1px solid #312E3D;  
+    border-right: 1px solid #312E3D;  
+    border-bottom: 1px solid #56536A;  
+    border-radius: 4px;  
+    background-color: rgb(77, 81, 85);  }
+    .f{
+		color: #fff;   
+    text-shadow:0 0 10px;   
+    letter-spacing: 1px;  
+	} 
+	 </style>
+</head>
+<body class="a">
+<div class="b">
+	<h1>Login</h1>
+<form action="NewFile.jsp" method="post" >
+
+<table width="300" border="0" cellspacing="0" cellpadding="4"  id="logintable" align="center">
+<tr>
+<td class="f">帐号：</td>
+<td ><input type="text" name="num" class="e"></td>
+</tr>
+<tr>
+<td class="f">密码：</td>
+<td><input type="password" name="userpassword" class="e"></td>
+</tr>
+<tr>
+<td></td>
+<td><a href="NewFile.jsp" onclick="link"><input type="submit" name="submit" value="登录" class="d"></a>
+<h3></h3>
+<a href="RegistPage.html" onclick="link"><input type="button" value="注册" class="d"></a>
+</td>
+</tr>
+</table>
+</form>
+</div>
+</body>
+</html>
+
+
+
+/*NewFile.html*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+	<title></title>
+</head>
+<body>
+<h1>登录失败</h1>
+</body>
+</html>
+
+
+
+/*NewFile.jsp*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+    <title></title>
+</head>
+<body>
+
+
+    <%
+    String num = request.getParameter("num");
+
+    session.setAttribute("username",num);
+
+
+    String userpassword = request.getParameter("userpassword");
+    session.setAttribute("password",userpassword);
+    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+     Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录链接数据库
+
+    Statement stmt = connect.createStatement();//
+
+    String sql = "select  *  from user2 where id='"+num+"'and userpassword='"+userpassword+"'";
+    ResultSet i = stmt.executeQuery(sql);
+    if(i.next())
+
+    {
+
+        String identity=i.getString(3).trim();
+        session.setAttribute("identity",identity);
+        identity=identity.toString();
+        if(identity.equals("teacher"))
+        {
+           response.setHeader("refresh","1;url = Adminhome.jsp");
+
+        }
+        else if(identity.equals("student"))
+        {    
+
+               
+            response.setHeader("refresh","1;url = Stuhome.jsp");
+
+        }
+    }
+    else
+    {
+        
+
+        out.println("<script language = 'javaScript' >  alert('password error');</script>");
+
+        response.setHeader("refresh","1;url = index.html");
+
+    }
+
+    stmt.close();
+
+    connect.close();
+
+ 
+
+%>
+</body>
+</html>
+
+
+/*Regist.jsp*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+<title></title>
+</head>
+<body>
+<%
+   String rgname=request.getParameter("RGname");
+ 
+   String rgpassword=request.getParameter("RGpassword");
+   String identity=request.getParameter("Identity");
+   
+   Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+   Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录SQLSERVER2008
+
+    Statement stmt = connect.createStatement();//
+    String checknamesql = "select  *  from user2 where id='"+rgname+"'";
+    ResultSet check=stmt.executeQuery(checknamesql);
+    if (check.next())
+     {
+
+         out.println("<script language = 'javaScript'> alert('此用户已存在');</script>");
+         response.setHeader("refresh","1;url=RegistPage.html");
+
+    	
+    }
+    else
+    {
+
+     String insertsql1="insert into user2 values('"+rgname+"','"+rgpassword+"','"+identity+"')";
+     String insertsql2=null;
+     if(identity.equals("teacher"))
+     {
+        insertsql2="insert into TeacherInfo(id) values('"+rgname+"')";
+
+     }
+     else if(identity.equals("student"))
+     {
+
+       insertsql2="insert into StudentInfo(id) values('"+rgname+"')";
+
+     }
+
+     int result1=stmt.executeUpdate(insertsql1);
+     int result2=stmt.executeUpdate(insertsql2);
+     if(result1==1&&result2==1)
+     {
+          out.println("<script language = 'javaScript'> alert('成功注册');</script>");
+          response.setHeader("refresh","1;url=index.html");
+
+     }
+     else
+     {
+         out.println("<script language = 'javaScript'> alert('注册失败');</script>");
+         response.setHeader("refresh","1;url=RegistPage.html");
+
+     }
+
+
+	
+}
+stmt.close();
+
+connect.close();//释放资源
+
+
+%>
+</body>
+</html>
+
+
+
+/*RegistPage.html*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>注册界面</title>
+<link rel="stylesheet" type="text/css" href="RegistPage.css">
+<style>
+  .a{
+    background:#4a374a;
+  }
+
+  .c{
+    
+		width: 150px;  
+    height: 18px;  
+    margin-bottom: 10px;  
+    outline: none;  
+    padding: 10px;  
+    font-size: 13px;  
+    color: #fff;  
+     
+    border-top: 1px solid #312E3D;  
+    border-left: 1px solid #312E3D;  
+    border-right: 1px solid #312E3D;  
+    border-bottom: 1px solid #56536A;  
+    border-radius: 4px;  
+    background-color: rgb(77, 81, 85);  
+	
+  }
+  .d{
+    width: 200px;
+		 
+     min-height: 18px;  
+     display: block;  
+     background-color: #4a77d4;  
+     border: 1px solid #3762bc;  
+     color: #fff;  
+     padding: 9px 14px;  
+     font-size: 15px;  
+     line-height: normal;  
+     border-radius: 5px;  
+     margin-bottom: 10px;  
+     margin-left: auto;
+     margin-right: auto;
+  }
+  .e{
+    background-color: rgb(77, 81, 85);
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #312E3D;
+  }
+</style>
+</head>
+
+<body class="a">
+
+<form action="Regist.jsp" method="post">
+<div id="registform" >
+  <br>
+<div><strong>帐号：</strong><input type="text" name="RGname" class="c"></div>
+<br>
+<div><strong>密码：</strong><input type="text" name="RGpassword" class="c"></div>
+<div>
+<br>
+<strong>注册类型：</strong>
+<select name="Identity" class="e"> 
+  <option value="teacher" selected="selected" >老师</option>
+  <option value="student">学生</option>  
+</select></div>
+ <br> 
+<div id="sub_button"><a href="Regist.jsp" onclick="link"><input type="submit" name="RGsubmit" value="提交注册" class="d"></div><br>
+</div>
+
+</form>
+</body>
+</html>
+
+
+/*Stuhome.jsp*/
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+    <title>首页</title>
+    <style type="text/css">
+        table {
+			
+            width: 800px;
+            height: 600px;
+            border: 1px solid #000000;
+            border-collapse: collapse;
+            margin-left:auto;
+			margin-right:auto;
+        }
+
+        td {
+            border: 1px solid #000000;
+        }
+        a{ text-decoration: none; }
+	
+    </style>
+</head>
+
+<body>
+<%
+    String username=(String)session.getAttribute("username");
+    if (username==null) {
+        response.setHeader("refresh","1;url =index.html");
+        return;//防止不登录非法访问
+    }
+
+
+
+    String sno=null;
+    String sname=null;
+    String sage=null;
+    String sbirth=null;
+    String ssex=null;
+    String sphone=null;
+    String smail=null;
+    String sclass=null;
+    String id=(String)session.getAttribute("username"); 
+    String identity=(String)session.getAttribute("identity");
+     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+   Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录SQLSERVER2008
+
+    Statement stmt = connect.createStatement();//
+    String checksql="select * from StudentInfo where id='"+id+"'";
+    ResultSet set=stmt.executeQuery(checksql);
+    if (set.next()) {
+        
+        if(set.getString(2)==null)
+        {
+               sno="default";        
+        }
+        else
+        {
+              sno=set.getString(2).trim();
+        }
+         if(set.getString(3)==null)
+        {
+               sname="default";        
+        }
+        else
+        {
+              sname=set.getString(3).trim();
+        }
+         if(set.getString(4)==null)
+        {
+               sage="default";        
+        }
+        else
+        {
+              sage=set.getString(4).trim();
+        }
+         if(set.getString(5)==null)
+        {
+               sbirth="default";        
+        }
+        else
+        {
+              sbirth=set.getString(5).trim();
+        }
+         if(set.getString(6)==null)
+        {
+               ssex="default";        
+        }
+        else
+        {
+              ssex=set.getString(6).trim();
+        }
+         if(set.getString(7)==null)
+        {
+               sphone="default";        
+        }
+        else
+        {
+              sphone=set.getString(7).trim();
+        }
+         if(set.getString(8)==null)
+        {
+               smail="default";        
+        }
+        else
+        {
+              smail=set.getString(8).trim();
+        }
+        
+         if(set.getString(9)==null)
+        {
+               sclass="default";        
+        }
+        else
+        {
+              sclass=set.getString(9).trim();
+        }
+        
+
+
+    stmt.close();
+
+    connect.close();
+
+
+    }
+
+
+%>
+<h1 align="center">欢迎使用学生管理系统</h1>
+<hr/>
+
+<div >
+    <form action="StuSave.jsp" method="post">
+    <table  width="788"  >
+        
+        <tr>
+            <td colspan="2"><h2>个人信息</h2></td>
+        </tr>
+      
+        <tr>
+            <td width="116">学号:</td>
+            <td width="672"><input type="text" name="sno" value="<%=sno%>"></td>
+        </tr>
+        <tr>
+            <td>班级：</td>
+            <td><input type="text" name="sclass" value="<%=sclass%>"></td>
+        </tr>
+        <tr>
+            <td>姓名：</td>
+            <td><input type="text" name="sname" value="<%=sname%>"></td>
+        </tr>
+        <tr>
+            <td>年龄：</td>
+            <td><input type="text" name="sage" value="<%=sage%>"></td>
+        </tr>
+        <tr>
+            <td>出生日期：</td>
+            <td><input type="text" name="sbirth" value="<%=sbirth%>"></td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td><select name="ssex" > 
+             <option value="male" selected="selected" >男</option>
+             <option value="female">女</option>  
+             </select></td>
+        </tr>
+        <tr>
+            <td>联系电话：</td>
+            <td><input type="text" name="sphone" value="<%=sphone%>"></td>
+        </tr>
+        <tr>
+            <td>邮箱：</td>
+            <td><input type="text" name="smail" value="<%=smail%>"></td>
+        </tr>
+ 
+
+
+        <tr>
+            <td colspan="2" align="center">&nbsp;&nbsp;<a href="StuSave.jsp
+" onclick="link"><input type="submit" value="修改信息"></a>&nbsp;&nbsp;<a href="ChangePassword.html" onclick="link"><input type="button" value="修改密码"></a></td>
+        </tr>
+  </table>
+  </form>
+</div>
+</body>
+</html>
+
+
+
+
+/*StuSave.jsp*/
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<%@ page contentType = "text/html; charset=utf-8" import = "java.sql.*"%>
+	<title></title>
+</head>
+<body>
+<%
+     String id=(String)session.getAttribute("username");    
+     String sname=request.getParameter("sname");
+     String sage=request.getParameter("sage");
+     String sbirth=request.getParameter("sbirth");
+     String ssex=request.getParameter("ssex");
+     String sphone=request.getParameter("sphone");
+     String smail=request.getParameter("smail");
+     String sclass=request.getParameter("sclass");
+      Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+     Connection connect = DriverManager.getConnection(
+
+               "jdbc:sqlserver://localhost:1433;databaseName=ManageDB","sa","wei123456");//登录SQLSERVER2008
+
+      Statement stmt = connect.createStatement();
+      String  updatesql="update StudentInfo set sname='"+sname+"', sage='"+sage+"', sbirth='"+sbirth+"', ssex='"+ssex+"', sphone='"+sphone+"', smail='"+smail+"', sclass='"+sclass+"' where id='"+id+"'";
+
+      int result=stmt.executeUpdate(updatesql);
+      if (result==1) {
+      	out.println("<script language = 'javaScript'> alert('成功修改');</script>");
+      	response.setHeader("refresh","1;url=Stuhome.jsp");
+
+      }
+
+
+%>
+</body>
+</html>
+
+
+
